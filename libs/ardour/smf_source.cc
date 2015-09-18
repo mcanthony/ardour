@@ -391,7 +391,8 @@ SMFSource::write_unlocked (const Lock&                 lock,
 /** Append an event with a timestamp in beats */
 void
 SMFSource::append_event_beats (const Glib::Threads::Mutex::Lock&   lock,
-                               const Evoral::Event<Evoral::Beats>& ev)
+                               const Evoral::Event<Evoral::Beats>& ev,
+                               const bool                          new_id)
 {
 	if (!_writing || ev.size() == 0)  {
 		return;
@@ -421,7 +422,7 @@ SMFSource::append_event_beats (const Glib::Threads::Mutex::Lock&   lock,
 
 	Evoral::event_id_t event_id;
 
-	if (ev.id() < 0) {
+	if (ev.id() < 0 || new_id) {
 		event_id  = Evoral::next_event_id();
 	} else {
 		event_id = ev.id();
@@ -445,7 +446,8 @@ SMFSource::append_event_beats (const Glib::Threads::Mutex::Lock&   lock,
 void
 SMFSource::append_event_frames (const Glib::Threads::Mutex::Lock& lock,
                                 const Evoral::Event<framepos_t>&  ev,
-                                framepos_t                        position)
+                                framepos_t                        position,
+                                const bool                        new_id)
 {
 	if (!_writing || ev.size() == 0)  {
 		return;
@@ -466,7 +468,7 @@ SMFSource::append_event_frames (const Glib::Threads::Mutex::Lock& lock,
 	const Evoral::Beats  ev_time_beats = converter.from(ev.time());
 	Evoral::event_id_t   event_id;
 
-	if (ev.id() < 0) {
+	if (ev.id() < 0 || new_id) {
 		event_id  = Evoral::next_event_id();
 	} else {
 		event_id = ev.id();

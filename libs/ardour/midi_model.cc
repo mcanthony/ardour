@@ -1412,7 +1412,8 @@ MidiModel::PatchChangeDiffCommand::get_state ()
  */
 bool
 MidiModel::write_to (boost::shared_ptr<MidiSource>     source,
-                     const Glib::Threads::Mutex::Lock& source_lock)
+                     const Glib::Threads::Mutex::Lock& source_lock,
+                     const bool new_id)
 {
 	ReadLock lock(read_lock());
 
@@ -1423,7 +1424,7 @@ MidiModel::write_to (boost::shared_ptr<MidiSource>     source,
 	source->mark_streaming_midi_write_started (source_lock, note_mode());
 
 	for (Evoral::Sequence<TimeType>::const_iterator i = begin(TimeType(), true); i != end(); ++i) {
-		source->append_event_beats(source_lock, *i);
+		source->append_event_beats(source_lock, *i, new_id);
 	}
 
 	set_percussive(old_percussive);
@@ -1483,7 +1484,8 @@ bool
 MidiModel::write_section_to (boost::shared_ptr<MidiSource>     source,
                              const Glib::Threads::Mutex::Lock& source_lock,
                              Evoral::Beats                     begin_time,
-                             Evoral::Beats                     end_time)
+                             Evoral::Beats                     end_time,
+                             const bool                        new_id)
 {
 	ReadLock lock(read_lock());
 	MidiStateTracker mst;
@@ -1517,14 +1519,14 @@ MidiModel::write_section_to (boost::shared_ptr<MidiSource>     source,
 					continue;
 				}
 
-				source->append_event_beats (source_lock, *i);
+				source->append_event_beats (source_lock, *i, new_id);
 				mst.remove (mev->note(), mev->channel());
 
 			} else if (mev->is_note_on()) {
 				mst.add (mev->note(), mev->channel());
-				source->append_event_beats(source_lock, *i);
+				source->append_event_beats(source_lock, *i, new_id);
 			} else {
-				source->append_event_beats(source_lock, *i);
+				source->append_event_beats(source_lock, *i, new_id);
 			}
 		}
 	}

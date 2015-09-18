@@ -61,7 +61,8 @@ class LIBARDOUR_API MidiSource : virtual public Source, public boost::enable_sha
 	int write_to (const Lock&                   lock,
 	              boost::shared_ptr<MidiSource> newsrc,
 	              Evoral::Beats                 begin = Evoral::MinBeats,
-	              Evoral::Beats                 end   = Evoral::MaxBeats);
+	              Evoral::Beats                 end   = Evoral::MaxBeats,
+	              const bool                    new_id = false);
 
 	/** Read the data in a given time range from the MIDI source.
 	 * All time stamps in parameters are in audio frames (even if the source has tempo time).
@@ -96,7 +97,8 @@ class LIBARDOUR_API MidiSource : virtual public Source, public boost::enable_sha
 	 * Caller must ensure that the event is later than the last written event.
 	 */
 	virtual void append_event_beats(const Lock&                         lock,
-	                                const Evoral::Event<Evoral::Beats>& ev) = 0;
+	                                const Evoral::Event<Evoral::Beats>& ev,
+	                                const bool                          new_id = false) = 0;
 
 	/** Append a single event with a timestamp in frames.
 	 *
@@ -104,7 +106,8 @@ class LIBARDOUR_API MidiSource : virtual public Source, public boost::enable_sha
 	 */
 	virtual void append_event_frames(const Lock&                      lock,
 	                                 const Evoral::Event<framepos_t>& ev,
-	                                 framepos_t                       source_start) = 0;
+	                                 framepos_t                       source_start,
+	                                 const bool                       new_id = false) = 0;
 
 	virtual bool       empty () const;
 	virtual framecnt_t length (framepos_t pos) const;

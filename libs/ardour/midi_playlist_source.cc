@@ -150,14 +150,14 @@ MidiPlaylistSource::write_unlocked (const Lock&,
 }
 
 void
-MidiPlaylistSource::append_event_beats(const Glib::Threads::Mutex::Lock& /*lock*/, const Evoral::Event<Evoral::Beats>& /*ev*/)
+MidiPlaylistSource::append_event_beats(const Glib::Threads::Mutex::Lock& /*lock*/, const Evoral::Event<Evoral::Beats>& /*ev*/, const bool /* new_id*/)
 {
 	fatal << string_compose (_("programming error: %1"), "MidiPlaylistSource::append_event_beats() called - should be impossible") << endmsg;
 	abort(); /*NOTREACHED*/
 }
 
 void
-MidiPlaylistSource::append_event_frames(const Glib::Threads::Mutex::Lock& /*lock*/, const Evoral::Event<framepos_t>& /* ev */, framepos_t /*source_start*/)
+MidiPlaylistSource::append_event_frames(const Glib::Threads::Mutex::Lock& /*lock*/, const Evoral::Event<framepos_t>& /* ev */, framepos_t /*source_start*/, const bool /* new_id*/)
 {
 	fatal << string_compose (_("programming error: %1"), "MidiPlaylistSource::append_event_frames() called - should be impossible") << endmsg;
 	abort(); /*NOTREACHED*/

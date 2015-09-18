@@ -259,12 +259,14 @@ public:
 	bool sync_to_source (const Glib::Threads::Mutex::Lock& source_lock);
 
 	bool write_to(boost::shared_ptr<MidiSource>     source,
-	              const Glib::Threads::Mutex::Lock& source_lock);
+	              const Glib::Threads::Mutex::Lock& source_lock,
+	              const bool new_id = false);
 
 	bool write_section_to(boost::shared_ptr<MidiSource>     source,
 	                      const Glib::Threads::Mutex::Lock& source_lock,
 	                      Evoral::Beats                     begin = Evoral::MinBeats,
-	                      Evoral::Beats                     end   = Evoral::MaxBeats);
+	                      Evoral::Beats                     end   = Evoral::MaxBeats,
+                              const bool                        new_id = false);
 
 	// MidiModel doesn't use the normal AutomationList serialisation code
 	// since controller data is stored in the .mid

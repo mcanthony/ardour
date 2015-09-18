@@ -380,7 +380,7 @@ MidiSource::mark_streaming_write_completed (const Lock& lock)
 }
 
 int
-MidiSource::write_to (const Lock& lock, boost::shared_ptr<MidiSource> newsrc, Evoral::Beats begin, Evoral::Beats end)
+MidiSource::write_to (const Lock& lock, boost::shared_ptr<MidiSource> newsrc, Evoral::Beats begin, Evoral::Beats end, const bool new_id)
 {
 	Lock newsrc_lock (newsrc->mutex ());
 
@@ -392,7 +392,7 @@ MidiSource::write_to (const Lock& lock, boost::shared_ptr<MidiSource> newsrc, Ev
 		if (begin == Evoral::MinBeats && end == Evoral::MaxBeats) {
 			_model->write_to (newsrc, newsrc_lock);
 		} else {
-			_model->write_section_to (newsrc, newsrc_lock, begin, end);
+			_model->write_section_to (newsrc, newsrc_lock, begin, end, new_id);
 		}
 	} else {
 		error << string_compose (_("programming error: %1"), X_("no model for MidiSource during ::clone()"));
