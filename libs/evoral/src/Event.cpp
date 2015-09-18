@@ -110,7 +110,7 @@ template<typename Timestamp>
 const Event<Timestamp>&
 Event<Timestamp>::operator=(const Event& copy)
 {
-	_id = next_event_id ();
+	_id = copy._id;
 	_type = copy._type;
 	_original_time = copy._original_time;
 	_nominal_time = copy._nominal_time;
