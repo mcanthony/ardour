@@ -151,7 +151,7 @@ MidiRegion::clone (boost::shared_ptr<MidiSource> newsrc) const
 		/* Lock our source since we'll be reading from it.  write_to() will
 		   take a lock on newsrc. */
 		Source::Lock lm (midi_source(0)->mutex());
-		if (midi_source(0)->write_to (lm, newsrc, bbegin, bend)) {
+		if (midi_source(0)->write_to (lm, newsrc, bbegin, bend, true)) {
 			return boost::shared_ptr<MidiRegion> ();
 		}
 	}
